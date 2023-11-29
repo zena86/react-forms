@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styles from './style.module.scss';
 import { useState } from 'react';
-import upload from './../../../public/upload.svg';
+import { useAppDispatch } from '../../redux/hooks';
+import { formDataUpdated } from '../../redux/features/formSlice';
+// import upload from './../../../public/upload.svg';
 
 enum Gender {
   male = 'Male',
@@ -609,10 +611,15 @@ const ReactHookForm = () => {
     reader.readAsDataURL(file);
   };
 
+  const dispatch = useAppDispatch();
+  console.log('dispatch', dispatch);
+
   const onFormSubmit = (data: FormProps) => {
     if (data.uriImage?.length > 0) {
       convertToBase64(data.uriImage[0]);
     }
+
+    dispatch(formDataUpdated({ formData: data }));
 
     alert(JSON.stringify(data));
     console.log(errors);
