@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: #212121;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+
+  @media (max-width: 900px) {
+    width: 900px;
+    overflow-x: scroll;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+
+  @media (max-width: 533px) {
+    padding: 10px;
+  }
+}
+
+

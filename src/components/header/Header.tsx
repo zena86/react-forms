@@ -1,24 +1,13 @@
-import { NavLink } from 'react-router-dom';
+import MenuItem from '../menuLink';
 
 const Header = () => {
   return (
     <>
-      <NavLink
-        to="/uncontrolled-form"
-        className={({ isActive, isPending }) =>
-          isPending ? 'pending' : isActive ? 'active' : ''
-        }
-      >
-        Uncontrolled Form
-      </NavLink>
-      <NavLink
-        to="/react-hook-form"
-        className={({ isActive, isPending }) =>
-          isPending ? 'pending' : isActive ? 'active' : ''
-        }
-      >
-        React Hook Form
-      </NavLink>
+      <div className="container">
+        <MenuItem url="/" text="Main" />
+        <MenuItem url="/uncontrolled-form" text="Uncontrolled Form" />
+        <MenuItem url="/react-hook-form" text="React Hook Form" />
+      </div>
     </>
   );
 };

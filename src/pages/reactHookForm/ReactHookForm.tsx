@@ -6,6 +6,7 @@ import styles from './style.module.scss';
 import { useState } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { formDataUpdated } from '../../redux/features/formSlice';
+import { useNavigate } from 'react-router-dom';
 // import upload from './../../../public/upload.svg';
 
 enum Gender {
@@ -611,6 +612,7 @@ const ReactHookForm = () => {
     reader.readAsDataURL(file);
   };
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   console.log('dispatch', dispatch);
 
@@ -621,6 +623,7 @@ const ReactHookForm = () => {
 
     dispatch(formDataUpdated({ formData: data }));
 
+    // navigate('/');
     alert(JSON.stringify(data));
     console.log(errors);
     reset();
@@ -632,97 +635,99 @@ const ReactHookForm = () => {
   return (
     <>
       <Header />
-      {image ? <img src={image} width={450} /> : null}
-      <h1>ReactHookForm</h1>
-      <form
-        onSubmit={handleSubmit(onFormSubmit)}
-        className={styles['contact-form']}
-      >
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          {...register('name', {
-            required: 'Fill field',
-            minLength: { value: 5, message: 'More 5' },
-          })}
-        />
-        {errors && errors?.name && <p>{errors?.name?.message || 'Error!'}</p>}
-
-        <label htmlFor="age">Age</label>
-        <input type="number" id="age" {...register('age')} />
-        <p>{errors.age?.message}</p>
-
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" {...register('email')} />
-        <p>{errors.email?.message}</p>
-
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" {...register('password')} />
-        <p>{errors.password?.message}</p>
-
-        <label htmlFor="confirm_password">Confirm password</label>
-        <input
-          type="password"
-          id="confirm_password"
-          {...register('confirm_password')}
-        />
-        <p>{errors.confirm_password?.message}</p>
-
-        <label htmlFor="terms">Accept T&C</label>
-        <input
-          type="checkbox"
-          id="terms"
-          className={styles['ui-checkbox']}
-          {...register('terms')}
-        />
-        <p>{errors.terms?.message}</p>
-
-        <label htmlFor="gender">Gender</label>
-        <div className={styles['custom-select']}>
-          <select id="gender" {...register('gender')}>
-            {Object.values(Gender).map((gender) => {
-              return (
-                <option key={gender} value={gender}>
-                  {gender}
-                </option>
-              );
+      <div className="container">
+        {image ? <img src={image} width={450} /> : null}
+        <h1>ReactHookForm</h1>
+        <form
+          onSubmit={handleSubmit(onFormSubmit)}
+          className={styles['contact-form']}
+        >
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            {...register('name', {
+              required: 'Fill field',
+              minLength: { value: 5, message: 'More 5' },
             })}
-          </select>
-        </div>
+          />
+          {errors && errors?.name && <p>{errors?.name?.message || 'Error!'}</p>}
 
-        {errors.uriImage ||
-        !watch('uriImage') ||
-        watch('uriImage').length === 0 ? (
-          <label className={styles['custum-file-upload']} htmlFor="file">
-            <div className={styles['icon']}>
-              <img src="/vite.svg" alt="upload" />
-            </div>
-            <div className={styles['text']}>
-              <span>Click to upload image</span>
-            </div>
-            <input type="file" id="file" {...register('uriImage')} />
-          </label>
-        ) : (
-          <strong>{watch('uriImage')[0].name}</strong>
-        )}
-        <p>{errors.uriImage?.message}</p>
+          <label htmlFor="age">Age</label>
+          <input type="number" id="age" {...register('age')} />
+          <p>{errors.age?.message}</p>
 
-        <label htmlFor="country">Country</label>
-        <div className={styles['custom-select']}>
-          <select id="country" autoComplete={'on'} {...register('country')}>
-            {country.map((country) => {
-              return (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" {...register('email')} />
+          <p>{errors.email?.message}</p>
 
-        <input type="submit" disabled={!isValid} value="Submit" />
-      </form>
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" {...register('password')} />
+          <p>{errors.password?.message}</p>
+
+          <label htmlFor="confirm_password">Confirm password</label>
+          <input
+            type="password"
+            id="confirm_password"
+            {...register('confirm_password')}
+          />
+          <p>{errors.confirm_password?.message}</p>
+
+          <label htmlFor="terms">Accept T&C</label>
+          <input
+            type="checkbox"
+            id="terms"
+            className={styles['ui-checkbox']}
+            {...register('terms')}
+          />
+          <p>{errors.terms?.message}</p>
+
+          <label htmlFor="gender">Gender</label>
+          <div className={styles['custom-select']}>
+            <select id="gender" {...register('gender')}>
+              {Object.values(Gender).map((gender) => {
+                return (
+                  <option key={gender} value={gender}>
+                    {gender}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          {errors.uriImage ||
+          !watch('uriImage') ||
+          watch('uriImage').length === 0 ? (
+            <label className={styles['custum-file-upload']} htmlFor="file">
+              <div className={styles['icon']}>
+                <img src="/vite.svg" alt="upload" />
+              </div>
+              <div className={styles['text']}>
+                <span>Click to upload image</span>
+              </div>
+              <input type="file" id="file" {...register('uriImage')} />
+            </label>
+          ) : (
+            <strong>{watch('uriImage')[0].name}</strong>
+          )}
+          <p>{errors.uriImage?.message}</p>
+
+          <label htmlFor="country">Country</label>
+          <div className={styles['custom-select']}>
+            <select id="country" autoComplete={'on'} {...register('country')}>
+              {country.map((country) => {
+                return (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <input type="submit" disabled={!isValid} value="Submit" />
+        </form>
+      </div>
     </>
   );
 };

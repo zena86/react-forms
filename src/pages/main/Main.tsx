@@ -1,10 +1,13 @@
 import Header from '../../components/header';
+import Card from '../../components/card/';
 
 const Main = () => {
   return (
     <>
       <Header />
-      <div>Main</div>
+      <div className="container">
+        <Card />
+      </div>
     </>
   );
 };

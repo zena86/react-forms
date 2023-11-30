@@ -2,9 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 // import { ITEMS_ON_PAGE } from '../../constants';
 
 export const formSlice = createSlice({
-  name: 'itemsPerPage',
+  name: 'formData',
   initialState: {
-    formData: {},
+    formData: {
+      name: 'Example',
+      age: 25,
+      email: 'example@qwerty.com',
+      password: '',
+      confirm_password: '',
+      gender: 'Male',
+      country: 'Georgia',
+    },
   },
   reducers: {
     formDataUpdated: (state, action) => {
