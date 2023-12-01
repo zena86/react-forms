@@ -11,6 +11,7 @@ import { schema } from './schema';
 import { Gender } from '../../components/card/type';
 import { country } from './constants';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 // import upload from './../../../public/upload.svg';
 
 // interface Form {
@@ -90,7 +91,7 @@ import { v4 as uuidv4 } from 'uuid';
 //   //   .oneOf(Object.values(Country)),
 // });
 
-type FormProps = yup.InferType<typeof schema>;
+type PersonFormProps = yup.InferType<typeof schema>;
 
 const ReactHookForm = () => {
   const {
@@ -98,41 +99,63 @@ const ReactHookForm = () => {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-    // watch,
-  } = useForm<FormProps>({ mode: 'all', resolver: yupResolver(schema) });
+    watch,
+  } = useForm<PersonFormProps>({ mode: 'all', resolver: yupResolver(schema) });
 
-  // const [image, setImage] = useState('');
+  //const [image, setImage] = useState('');
 
-  // const convertToBase64 = (file) => {
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setImage(reader.result.toString());
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
+  const convertToBase64 = async (file) => {
+    const promise = new Promise(
+      (resolve: (data: string) => void, reject: () => void) => {
+        const reader = new FileReader();
+        reader.onerror = () => {
+          reject();
+        };
+        reader.onabort = () => {
+          reject();
+        };
+        reader.onloadend = () => {
+          if (reader.result) {
+            resolve(reader.result.toString());
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    );
+    return promise;
+  };
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  console.log('dispatch', dispatch);
 
-  const onFormSubmit = (data: FormProps) => {
-    // if (data.uriImage?.length > 0) {
-    //   convertToBase64(data.uriImage[0]);
-    // }
-
+  const onFormSubmit = async (data: PersonFormProps) => {
+    if (!data.uriImage) return;
+    const imageData = await convertToBase64(data.uriImage[0]);
     dispatch(
       formDataUpdated({
-        formData: { ...data, isActive: true, id: uuidv4().toString() },
+        formData: {
+          id: uuidv4().toString(),
+          name: data.name,
+          age: data.age,
+          email: data.email,
+          image: imageData,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+          conditionsAccepted: data.conditionsAccepted,
+          gender: data.gender,
+          country: data.country,
+          isActive: true,
+        },
       })
-    );
 
-    navigate('/');
+      // formDataUpdated({
+      //   formData: { ...data, isActive: true, id: uuidv4().toString() },
+      // })
+    );
     // alert(JSON.stringify(data));
-    console.log(errors);
+    navigate('/');
     reset();
   };
-
-  console.log('isValid', isValid, errors);
   // if (!watch) return;
 
   return (
@@ -249,7 +272,7 @@ const ReactHookForm = () => {
             </div>
           </div>
 
-          {/* {errors.uriImage ||
+          {errors.uriImage ||
           !watch('uriImage') ||
           watch('uriImage').length === 0 ? (
             <label className={styles['custum-file-upload']} htmlFor="file">
@@ -259,12 +282,13 @@ const ReactHookForm = () => {
               <div className={styles['text']}>
                 <span>Click to upload image</span>
               </div>
+              {/* <input type="file" id="file" {...register('uriImage')} /> */}
               <input type="file" id="file" {...register('uriImage')} />
             </label>
           ) : (
             <strong>{watch('uriImage')[0].name}</strong>
           )}
-          <p>{errors.uriImage?.message}</p> */}
+          {errors.uriImage && <p>{errors.uriImage?.message}</p>}
 
           <input type="submit" disabled={!isValid} value="Submit" />
         </form>

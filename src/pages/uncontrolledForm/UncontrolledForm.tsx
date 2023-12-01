@@ -83,7 +83,6 @@ const UncontrolledForm = () => {
     const errors = await validateNestedSchema(formData);
     changeErrorStates(errors);
     if (errors.length === 0) {
-      // dispatch(formDataUpdated({ formData: formData }));
       dispatch(
         formDataUpdated({
           formData: { ...formData, isActive: true, id: uuidv4().toString() },

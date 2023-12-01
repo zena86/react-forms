@@ -16,6 +16,8 @@ export const formSlice = createSlice({
         gender: 'Male',
         country: 'Georgia',
         isActive: false,
+        image:
+          'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample83.jpg',
       },
     ],
   },

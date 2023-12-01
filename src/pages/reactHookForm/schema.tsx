@@ -40,29 +40,27 @@ export const schema = yup.object().shape({
     .bool()
     .typeError('Accept Terms and ConditionsAge is required')
     .oneOf([true], 'Accept Terms and Conditions'),
-  // uriImage: yup
-  //   .mixed()
-  //   .nullable()
-  //   .test('required', 'Please select a file', (value) => {
-  //     console.log('value', value);
-  //     console.log('value length', value.length);
-  //     return value && value.length;
-  //   })
-  //   .test('fileSize', 'The file is too large', (value) => {
+  uriImage: yup
+    .mixed()
+    .nullable()
+    .test('required', 'Please select a file', (value) => {
+      return value && value.length;
+    }),
+  // .test('fileSize', 'The file is too large', (value) => {
+  //   if (!value.length) return true;
+  //   return value && value.length > 0 && value[0].size <= 2000000;
+  // })
+  // .test(
+  //   'type',
+  //   'Only the following formats are accepted: .jpeg, .png',
+  //   (value) => {
   //     if (!value.length) return true;
-  //     return value && value.length > 0 && value[0].size <= 2000000;
-  //   })
-  //   .test(
-  //     'type',
-  //     'Only the following formats are accepted: .jpeg, .png',
-  //     (value) => {
-  //       if (!value.length) return true;
-  //       return (
-  //         value &&
-  //         (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-  //       );
-  //     }
-  //   ),
+  //     return (
+  //       value &&
+  //       (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
+  //     );
+  //   }
+  // ),
   country: yup
     .string()
     .required('Must provide a country')

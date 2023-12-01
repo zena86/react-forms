@@ -26,10 +26,7 @@ const Card = ({ person }: PersonProps) => {
       }
     >
       <div className={styles['profile-image']}>
-        <img
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample47.jpg"
-          alt="sample47"
-        />
+        <img src={person.image} alt="sample47" />
       </div>
       <figcaption>
         <h3>{person.name}</h3>
