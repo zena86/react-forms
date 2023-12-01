@@ -38,7 +38,6 @@ export const schema = yup.object().shape({
     .oneOf(Object.values(Gender)),
   conditionsAccepted: yup
     .bool()
-    // .default(false)
     .typeError('Accept Terms and ConditionsAge is required')
     .oneOf([true], 'Accept Terms and Conditions'),
   // uriImage: yup

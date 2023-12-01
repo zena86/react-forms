@@ -8,6 +8,7 @@ import { country } from '../reactHookForm/constants';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
+import { v4 as uuidv4 } from 'uuid';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);
@@ -82,7 +83,12 @@ const UncontrolledForm = () => {
     const errors = await validateNestedSchema(formData);
     changeErrorStates(errors);
     if (errors.length === 0) {
-      dispatch(formDataUpdated({ formData: formData }));
+      // dispatch(formDataUpdated({ formData: formData }));
+      dispatch(
+        formDataUpdated({
+          formData: { ...formData, isActive: true, id: uuidv4().toString() },
+        })
+      );
       navigate('/');
     }
   };

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 // import { ITEMS_ON_PAGE } from '../../constants';
 
 export const formSlice = createSlice({
@@ -6,6 +7,7 @@ export const formSlice = createSlice({
   initialState: {
     formData: [
       {
+        id: uuidv4(),
         name: 'Example',
         age: 25,
         email: 'example@qwerty.com',
@@ -13,6 +15,7 @@ export const formSlice = createSlice({
         confirm_password: '',
         gender: 'Male',
         country: 'Georgia',
+        isActive: false,
       },
     ],
   },
@@ -21,9 +24,14 @@ export const formSlice = createSlice({
       const { formData } = action.payload;
       state.formData.push(formData);
     },
+    inactiveCards: (state) => {
+      state.formData = state.formData.map((item) => {
+        return { ...item, isActive: false };
+      });
+    },
   },
 });
 
-export const { formDataUpdated } = formSlice.actions;
+export const { formDataUpdated, inactiveCards } = formSlice.actions;
 
 export default formSlice.reducer;

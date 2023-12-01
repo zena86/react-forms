@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { Gender } from '../../components/card/type';
 import { country } from './constants';
+import { v4 as uuidv4 } from 'uuid';
 // import upload from './../../../public/upload.svg';
 
 // interface Form {
@@ -119,10 +120,14 @@ const ReactHookForm = () => {
     //   convertToBase64(data.uriImage[0]);
     // }
 
-    dispatch(formDataUpdated({ formData: data }));
+    dispatch(
+      formDataUpdated({
+        formData: { ...data, isActive: true, id: uuidv4().toString() },
+      })
+    );
 
     navigate('/');
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
     console.log(errors);
     reset();
   };

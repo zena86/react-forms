@@ -4,6 +4,7 @@ export enum Gender {
 }
 
 export interface Person {
+  id: string;
   name: string;
   age: number;
   email: string;
@@ -13,6 +14,7 @@ export interface Person {
   gender: Gender;
   uriImage: FileList;
   country: string;
+  isActive: boolean;
 }
 
 export interface PersonProps {

@@ -1,12 +1,30 @@
 // import { useAppSelector } from '../../redux/hooks';
+import { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { PersonProps } from './type';
+import { useAppDispatch } from '../../redux/hooks';
+import { inactiveCards } from '../../redux/features/formSlice';
+import { store } from '../../redux/store';
 
 const Card = ({ person }: PersonProps) => {
-  // const formData = useAppSelector((state) => state.form.formData);
+  const dispatch = useAppDispatch();
+  const [isActive, setIsActive] = useState(person.isActive);
+
+  useEffect(() => {
+    if (isActive) {
+      setTimeout(() => {
+        setIsActive(false);
+        dispatch(inactiveCards());
+      }, 3000);
+    }
+  }, [dispatch, isActive]);
 
   return (
-    <figure className={styles.card}>
+    <figure
+      className={
+        isActive ? `${styles.card} ${styles.active}` : `${styles.card}`
+      }
+    >
       <div className={styles['profile-image']}>
         <img
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample47.jpg"

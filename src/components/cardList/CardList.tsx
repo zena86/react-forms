@@ -7,7 +7,7 @@ const CardList = () => {
   console.log('formData list', formData);
 
   const cards = formData.map((card) => (
-    <li key={card.name}>
+    <li key={card.id}>
       <Card person={card} />
     </li>
   ));

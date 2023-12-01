@@ -1,6 +1,7 @@
 @import './../../colors.scss';
 
 .card {
+  // background-color: $errorColor;
   position: relative;
   margin: 10px;
   min-width: 230px;
@@ -11,6 +12,27 @@
   line-height: 1.4em;
   font-size: 14px;
   box-shadow: none !important;
+  transition: all 0.3s ease;
+
+  &.active {
+
+    & figcaption {
+      background-color: $accentColor;
+      color: $dark;
+    }
+
+    & .profile-image {
+      border: 2px solid $lightBg;
+    }
+
+    & a {
+      color: $lightBg;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
 }
 
 .card * {
