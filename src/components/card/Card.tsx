@@ -1,8 +1,9 @@
-import { useAppSelector } from '../../redux/hooks';
+// import { useAppSelector } from '../../redux/hooks';
 import styles from './style.module.scss';
+import { PersonProps } from './type';
 
-const Card = () => {
-  const formData = useAppSelector((state) => state.form.formData);
+const Card = ({ person }: PersonProps) => {
+  // const formData = useAppSelector((state) => state.form.formData);
 
   return (
     <figure className={styles.card}>
@@ -13,11 +14,13 @@ const Card = () => {
         />
       </div>
       <figcaption>
-        <h3>{formData.name}</h3>
-        <h4>{formData.email}</h4>
-        <p>{formData.gender}</p>
-        <p>{formData.age} years old</p>
-        <p>{formData.country}</p>
+        <h3>{person.name}</h3>
+        <p>
+          <span>{person.gender}, </span>
+          <span>{person.age} years old</span>
+        </p>
+        <p>{person.country}</p>
+        <a href={`mailto:${person.email}`}>{person.email}</a>
       </figcaption>
     </figure>
   );

@@ -1,12 +1,12 @@
 import Header from '../../components/header';
-import Card from '../../components/card/';
+import CardList from '../../components/cardList';
 
 const Main = () => {
   return (
     <>
       <Header />
       <div className="container">
-        <Card />
+        <CardList />
       </div>
     </>
   );

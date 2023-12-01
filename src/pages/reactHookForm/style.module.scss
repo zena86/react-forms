@@ -1,22 +1,45 @@
-$accentColor: #ff6384;
+@import './../../colors.scss';
+// $accentColor: #ff6384;
 // $accentColor: #146C94;
 
+.field {
+  margin-bottom: 5px;
+}
+
+.wrapper {
+  min-height: 20px;
+}
+
+.error {
+  color: $errorColor;
+  font-size: 12px;
+}
+
+label {
+  display: block;
+
+  .row & {
+    margin-left: 10px;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: start;
+  margin: 10px 0 0;
+}
+
 .contact-form {
-  background-color: #f2f2f2;
-  padding: 20px;
+  background-color: $lightBg;
+  padding: 40px 60px;
   border-radius: 10px;
 }
 
 .contact-form label {
-  color: black;
-}
-
-.contact-form .heading {
-  font-size: 24px;
-  color: black;
-  margin-bottom: 12px;
-  font-weight: bold;
-  display: block;
+  color: $dark;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .contact-form form {
@@ -24,24 +47,21 @@ $accentColor: #ff6384;
   flex-direction: column;
 }
 
-.contact-form label {
-  margin-bottom: 10px;
-}
 
-textarea {
-  resize: none;
-  height: 80px;
-  width: 200px;
-}
-
-.contact-form input, .contact-form textarea {
+.contact-form input {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  margin-bottom: 20px;
+  width: 100%;
+  color: $dark;
+  // margin-bottom: 20px;
 }
 
-.contact-form input:focus, .contact-form textarea:focus {
+input[type="checkbox"] {
+  width: auto;
+}
+
+.contact-form input:focus {
   outline: none;
   box-shadow: 0 0 5px $accentColor;
   // transform: scale(1.05);
@@ -49,6 +69,7 @@ textarea {
 }
 
 .contact-form input[type="submit"] {
+  width: auto;
   background-color: $accentColor;
   color: #fff;
   border: none;
@@ -72,9 +93,9 @@ textarea {
 /* checkbox settings 👇 */
 
 .ui-checkbox {
-  --primary-color: #ff6384;
+  --primary-color: $accentColor;
   --secondary-color: #fff;
-  --primary-hover-color: #ff6384;
+  --primary-hover-color: $accentColor;
   /* checkbox */
   --checkbox-diameter: 20px;
   --checkbox-border-radius: 5px;
@@ -85,9 +106,9 @@ textarea {
   --checkmark-size: 1.2;
 }
 
-.ui-checkbox, 
-.ui-checkbox *, 
-.ui-checkbox *::before, 
+.ui-checkbox,
+.ui-checkbox *,
+.ui-checkbox *::before,
 .ui-checkbox *::after {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -146,11 +167,11 @@ textarea {
 /* actions */
 
 .ui-checkbox:hover {
-  border-color: var(--primary-color);
+  border-color: $accentColor;
 }
 
 .ui-checkbox:checked {
-  background: var(--primary-color);
+  background: $accentColor;
   border-color: transparent;
 }
 
@@ -178,6 +199,7 @@ textarea {
 .custom-select {
   min-width: 350px;
   position: relative;
+  margin-bottom: 25px;
 }
 
 select {
@@ -186,7 +208,7 @@ select {
   -webkit-appearance: none;
   /*  other styles for aesthetics */
   width: 100%;
-  font-size: 1.15rem;
+  font-size: 14px;
   padding: 0.675em 6em 0.675em 1em;
   background-color: #fff;
   // border: 1px solid #caced1;
@@ -220,14 +242,14 @@ select {
 .custom-select::before {
   border-left: var(--size) solid transparent;
   border-right: var(--size) solid transparent;
-  border-bottom: var(--size) solid black;
+  border-bottom: var(--size) solid $dark;
   top: 40%;
 }
 
 .custom-select::after {
   border-left: var(--size) solid transparent;
   border-right: var(--size) solid transparent;
-  border-top: var(--size) solid black;
+  border-top: var(--size) solid $dark;
   top: 55%;
 }
 
