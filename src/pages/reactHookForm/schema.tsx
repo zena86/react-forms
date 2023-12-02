@@ -64,5 +64,8 @@ export const schema = yup.object().shape({
   country: yup
     .string()
     .required('Must provide a country')
-    .oneOf(Object.values(Country), 'Must provide a country'),
+    .oneOf(
+      Object.values(Country).map((c) => c.toString()),
+      'Must provide a country'
+    ),
 });

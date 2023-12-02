@@ -3,16 +3,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styles from './style.module.scss';
-// import { useState } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { Gender } from '../../components/card/type';
-import { country } from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Country } from './types';
 // import upload from './../../../public/upload.svg';
 
 // interface Form {
@@ -95,24 +94,42 @@ import { useEffect, useState } from 'react';
 type PersonFormProps = yup.InferType<typeof schema>;
 
 const ReactHookForm = () => {
+  // const [country, setCountry] = useState('');
+  // const [typedCountry, setTypedCountry] = useState('');
+  // const [selectedCountry, setSelectedCountry] = useState('');
+
   const {
+    getValues,
+    setValue,
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
     watch,
-  } = useForm<PersonFormProps>({ mode: 'all', resolver: yupResolver(schema) });
+  } = useForm<PersonFormProps>({
+    mode: 'all',
+    resolver: yupResolver(schema),
+  });
 
+  // const { append } = useFieldArray({
+  //   control: control,
+  //   name: 'test',
+  // });
+
+  console.log('errors!!!!!!!!', errors);
+
+  // const countries = useAppSelector((state) => state.form.countries);
   const [displayCountry, setDisplayCountry] = useState(false);
-  const [options, setOptions] = useState(country);
-  const [search, setSearch] = useState('');
-  useEffect(() => {
-    setOptions(country);
-  }, []);
-  const setCountryDex = (term: string) => {
-    setSearch(term);
-    setDisplayCountry(false);
-  };
+  // const [options, setOptions] = useState(countries);
+
+  // useEffect(() => {
+  //   // setOptions(countries);
+  // }, [search]);
+
+  // const setCountryDex = (term: string) => {
+  //   setSearch(term);
+  //   setDisplayCountry(false);
+  // };
 
   //const [image, setImage] = useState('');
 
@@ -270,68 +287,86 @@ const ReactHookForm = () => {
             <input
               type="text"
               id="country"
-              value={search}
               {...register('country')}
               onClick={() => setDisplayCountry(!displayCountry)}
               onChange={(e) => {
-                setSearch(e.target.value);
-                setDisplayCountry(true);
+                const userCountry = e.target.value.toString();
+                if (
+                  Object.values(Country)
+                    .map((c) => c.toString())
+                    .includes(userCountry)
+                ) {
+                  setDisplayCountry(false);
+                } else {
+                  setDisplayCountry(true);
+                }
+                setValue('country', userCountry, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
               }}
             />
             {displayCountry && (
               <div className="autocontainer">
-                {options
-                  .filter((item) => item.indexOf(search) > -1)
-                  .map((item) => {
+                {Object.values(Country)
+                  .filter((item) => item.indexOf(getValues('country')) > -1)
+                  .map((option) => {
                     return (
-                      <div key={item} onClick={() => setCountryDex(item)}>
-                        {item}
+                      <div
+                        key={option.toString()}
+                        onClick={async () => {
+                          setDisplayCountry(false);
+                          setValue('country', option.toString(), {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          });
+                        }}
+                      >
+                        {option}
                       </div>
                     );
                   })}
               </div>
             )}
             <div className={styles.wrapper}>
-              <p className={styles.error}>{errors.password?.message}</p>
+              <p className={styles.error}>{errors.country?.message}</p>
             </div>
           </div>
 
           <div className={styles.field}>
-            <div className={styles.row}>
-              <input
-                type="checkbox"
-                id="conditionsAccepted"
-                className={styles['ui-checkbox']}
-                {...register('conditionsAccepted')}
-              />
-              <label htmlFor="conditionsAccepted">
-                I agree to the terms and conditions
+            {errors.uriImage ||
+            !watch('uriImage') ||
+            watch('uriImage').length === 0 ? (
+              <label className={styles['custum-file-upload']} htmlFor="file">
+                <div className={styles['icon']}>
+                  <img src="upload.svg" width={40} alt="upload" />
+                </div>
+                <div className={styles['text']}>
+                  <span>Click to upload image</span>
+                </div>
+                {/* <input type="file" id="file" {...register('uriImage')} /> */}
+                <input type="file" id="file" {...register('uriImage')} />
               </label>
-            </div>
-            <div className={styles.wrapper}>
-              <p className={styles.error}>
-                {errors.conditionsAccepted?.message}
-              </p>
-            </div>
+            ) : (
+              <strong>{watch('uriImage')[0].name}</strong>
+            )}
+            {errors.uriImage && <p>{errors.uriImage?.message}</p>}
           </div>
 
-          {errors.uriImage ||
-          !watch('uriImage') ||
-          watch('uriImage').length === 0 ? (
-            <label className={styles['custum-file-upload']} htmlFor="file">
-              <div className={styles['icon']}>
-                <img src="/vite.svg" alt="upload" />
-              </div>
-              <div className={styles['text']}>
-                <span>Click to upload image</span>
-              </div>
-              {/* <input type="file" id="file" {...register('uriImage')} /> */}
-              <input type="file" id="file" {...register('uriImage')} />
+          <div className={styles.row}>
+            <input
+              type="checkbox"
+              id="conditionsAccepted"
+              className={styles['ui-checkbox']}
+              {...register('conditionsAccepted')}
+            />
+            <label htmlFor="conditionsAccepted">
+              I agree to the terms and conditions
             </label>
-          ) : (
-            <strong>{watch('uriImage')[0].name}</strong>
-          )}
-          {errors.uriImage && <p>{errors.uriImage?.message}</p>}
+          </div>
+          <div className={styles.wrapper}>
+            <p className={styles.error}>{errors.conditionsAccepted?.message}</p>
+          </div>
 
           <input type="submit" disabled={!isValid} value="Submit" />
         </form>

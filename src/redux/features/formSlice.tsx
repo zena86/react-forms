@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import { Country } from '../../pages/reactHookForm/types';
 // import { ITEMS_ON_PAGE } from '../../constants';
 
 export const formSlice = createSlice({
@@ -20,6 +21,7 @@ export const formSlice = createSlice({
           'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample83.jpg',
       },
     ],
+    countries: Object.values(Country),
   },
   reducers: {
     formDataUpdated: (state, action) => {

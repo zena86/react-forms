@@ -4,10 +4,10 @@ import styles from './../reactHookForm/style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
 import { Gender } from '../../components/card/type';
-import { country } from '../reactHookForm/constants';
+// import { country } from '../reactHookForm/constants';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 
@@ -37,11 +37,13 @@ const UncontrolledForm = () => {
   const [uploadMessage, setUploadMessage] = useState('');
 
   const [displayCountry, setDisplayCountry] = useState(false);
-  const [options, setOptions] = useState(country);
+
+  const countries = useAppSelector((state) => state.form.countries);
+  const [options, setOptions] = useState(countries);
   const [search, setSearch] = useState('');
   useEffect(() => {
-    setOptions(country);
-  }, []);
+    setOptions(countries);
+  }, [countries]);
   const setCountryDex = (term: string) => {
     setSearch(term);
     setDisplayCountry(false);
@@ -262,7 +264,7 @@ const UncontrolledForm = () => {
           {uriImageErrorMsg || !uriImage || uriImage.length === 0 ? (
             <label className={styles['custum-file-upload']} htmlFor="file">
               <div className={styles['icon']}>
-                <img src="/vite.svg" alt="upload" />
+                <img src="upload.svg" width={40} alt="upload" />
               </div>
               <div className={styles['text']}>
                 <span>Click to upload image</span>
