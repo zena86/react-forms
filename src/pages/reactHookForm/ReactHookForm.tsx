@@ -11,8 +11,8 @@ import { schema } from './schema';
 import { Gender } from '../../components/card/type';
 import { country } from './constants';
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
 import { convertToBase64 } from '../../utils/convertToBase64';
+import { useEffect, useState } from 'react';
 // import upload from './../../../public/upload.svg';
 
 // interface Form {
@@ -102,6 +102,17 @@ const ReactHookForm = () => {
     reset,
     watch,
   } = useForm<PersonFormProps>({ mode: 'all', resolver: yupResolver(schema) });
+
+  const [displayCountry, setDisplayCountry] = useState(false);
+  const [options, setOptions] = useState(country);
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    setOptions(country);
+  }, []);
+  const setCountryDex = (term: string) => {
+    setSearch(term);
+    setDisplayCountry(false);
+  };
 
   //const [image, setImage] = useState('');
 
@@ -239,7 +250,7 @@ const ReactHookForm = () => {
             <p className={styles.error}>{errors.gender?.message}</p>
           </div>
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="country">Country</label>
             <div className={styles['custom-select']}>
               <select id="country" autoComplete={'on'} {...register('country')}>
@@ -251,6 +262,37 @@ const ReactHookForm = () => {
                   );
                 })}
               </select>
+            </div>
+          </div> */}
+
+          <div className={styles.field}>
+            <label htmlFor="country">Country</label>
+            <input
+              type="text"
+              id="country"
+              value={search}
+              {...register('country')}
+              onClick={() => setDisplayCountry(!displayCountry)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setDisplayCountry(true);
+              }}
+            />
+            {displayCountry && (
+              <div className="autocontainer">
+                {options
+                  .filter((item) => item.indexOf(search) > -1)
+                  .map((item) => {
+                    return (
+                      <div key={item} onClick={() => setCountryDex(item)}>
+                        {item}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+            <div className={styles.wrapper}>
+              <p className={styles.error}>{errors.password?.message}</p>
             </div>
           </div>
 

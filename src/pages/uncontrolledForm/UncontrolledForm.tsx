@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from '../../components/header';
 import styles from './../reactHookForm/style.module.scss';
 import React from 'react';
@@ -28,13 +28,24 @@ const UncontrolledForm = () => {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState(null);
   const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(null);
   // const [genderErrorMsg, setGenderErrorMsg] = useState(null);
-  // const [countryErrorMsg, setCountryErrorMsg] = useState(null);
+  const [countryErrorMsg, setCountryErrorMsg] = useState(null);
   const [uriImageErrorMsg, setUriImageErrorMsg] = useState(null);
   const [conditionsAcceptedErrorMsg, setConditionsAcceptedErrorMsg] =
     useState();
 
   const [uriImage, setUriImage] = useState<FileList | null>(null);
   const [uploadMessage, setUploadMessage] = useState('');
+
+  const [displayCountry, setDisplayCountry] = useState(false);
+  const [options, setOptions] = useState(country);
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    setOptions(country);
+  }, []);
+  const setCountryDex = (term: string) => {
+    setSearch(term);
+    setDisplayCountry(false);
+  };
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -80,7 +91,7 @@ const UncontrolledForm = () => {
     setPasswordErrorMsg(getErrorMsg(errors, 'password'));
     setConfirmPasswordErrorMsg(getErrorMsg(errors, 'confirmPassword'));
     // setGenderErrorMsg(getErrorMsg(errors, 'gender'));
-    // setCountryErrorMsg(getErrorMsg(errors, 'country'));
+    setCountryErrorMsg(getErrorMsg(errors, 'country'));
     setUriImageErrorMsg(getErrorMsg(errors, 'uriImage'));
     setConditionsAcceptedErrorMsg(getErrorMsg(errors, 'conditionsAccepted'));
   };
@@ -200,10 +211,10 @@ const UncontrolledForm = () => {
             </div> */}
           </div>
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="country">Country</label>
             <div className={styles['custom-select']}>
-              <select id="country" autoComplete={'on'} ref={countryRef}>
+              <select id="country" ref={countryRef}>
                 {country.map((country) => {
                   return (
                     <option key={country} value={country}>
@@ -213,9 +224,39 @@ const UncontrolledForm = () => {
                 })}
               </select>
             </div>
-            {/* <div className={styles.wrapper}>
+            <div className={styles.wrapper}>
               <p className={styles.error}>{countryErrorMsg}</p>
-            </div> */}
+            </div>
+          </div> */}
+          <div className={styles.field}>
+            <label htmlFor="country">Country</label>
+            <input
+              type="text"
+              id="country"
+              value={search}
+              onClick={() => setDisplayCountry(!displayCountry)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setDisplayCountry(true);
+              }}
+              ref={countryRef}
+            />
+            {displayCountry && (
+              <div className="autocontainer">
+                {options
+                  .filter((item) => item.indexOf(search) > -1)
+                  .map((item) => {
+                    return (
+                      <div key={item} onClick={() => setCountryDex(item)}>
+                        {item}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+            <div className={styles.wrapper}>
+              <p className={styles.error}>{countryErrorMsg}</p>
+            </div>
           </div>
 
           {uriImageErrorMsg || !uriImage || uriImage.length === 0 ? (
