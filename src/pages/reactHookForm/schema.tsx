@@ -45,22 +45,22 @@ export const schema = yup.object().shape({
     .nullable()
     .test('required', 'Please select a file', (value) => {
       return value && value.length;
-    }),
-  // .test('fileSize', 'The file is too large', (value) => {
-  //   if (!value.length) return true;
-  //   return value && value.length > 0 && value[0].size <= 2000000;
-  // })
-  // .test(
-  //   'type',
-  //   'Only the following formats are accepted: .jpeg, .png',
-  //   (value) => {
-  //     if (!value.length) return true;
-  //     return (
-  //       value &&
-  //       (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-  //     );
-  //   }
-  // ),
+    })
+    .test('fileSize', 'The file is too large (max 500kb)', (value) => {
+      if (!value.length) return true;
+      return value && value.length > 0 && value[0].size <= 500000;
+    })
+    .test(
+      'type',
+      'Only the following formats are accepted: .jpeg, .png',
+      (value) => {
+        if (!value.length) return true;
+        return (
+          value &&
+          (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
+        );
+      }
+    ),
   country: yup
     .string()
     .required('Must provide a country')

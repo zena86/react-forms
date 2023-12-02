@@ -9,6 +9,7 @@ import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
+import { convertToBase64 } from '../../utils/convertToBase64';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);
@@ -18,6 +19,7 @@ const UncontrolledForm = () => {
   const confirmPasswordRef = useRef(null);
   const genderRef = useRef(null);
   const countryRef = useRef(null);
+  const uriImageRef = useRef(null);
   const conditionsAcceptedRef = useRef(null);
 
   const [nameErrorMsg, setNameErrorMsg] = useState(null);
@@ -27,8 +29,12 @@ const UncontrolledForm = () => {
   const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(null);
   // const [genderErrorMsg, setGenderErrorMsg] = useState(null);
   // const [countryErrorMsg, setCountryErrorMsg] = useState(null);
+  const [uriImageErrorMsg, setUriImageErrorMsg] = useState(null);
   const [conditionsAcceptedErrorMsg, setConditionsAcceptedErrorMsg] =
-    useState(null);
+    useState();
+
+  const [uriImage, setUriImage] = useState<FileList | null>(null);
+  const [uploadMessage, setUploadMessage] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -60,6 +66,7 @@ const UncontrolledForm = () => {
         ?.value,
       gender: (genderRef?.current as HTMLInputElement | null)?.value,
       country: (countryRef?.current as HTMLInputElement | null)?.value,
+      uriImage: (uriImageRef?.current as HTMLInputElement | null)?.files,
       conditionsAccepted: (
         conditionsAcceptedRef?.current as HTMLInputElement | null
       )?.checked,
@@ -74,19 +81,53 @@ const UncontrolledForm = () => {
     setConfirmPasswordErrorMsg(getErrorMsg(errors, 'confirmPassword'));
     // setGenderErrorMsg(getErrorMsg(errors, 'gender'));
     // setCountryErrorMsg(getErrorMsg(errors, 'country'));
+    setUriImageErrorMsg(getErrorMsg(errors, 'uriImage'));
     setConditionsAcceptedErrorMsg(getErrorMsg(errors, 'conditionsAccepted'));
+  };
+
+  const handleChooseImage = () => {
+    setUploadMessage('Image uploaded');
+    // const formData = getFormData();
+    // const uriImage = formData.uriImage as FileList;
+    // console.log('uriImage', uriImage);
+    // setUriImage(uriImage);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setUploadMessage('');
     const formData = getFormData();
+
+    const uriImage = formData.uriImage as FileList;
+    console.log('uriImage', uriImage);
+    setUriImage(uriImage);
+
+    if (!uriImage) return;
+    const imageData = await convertToBase64(uriImage[0]);
+    console.log('imageData', imageData);
+
     const errors = await validateNestedSchema(formData);
     changeErrorStates(errors);
     if (errors.length === 0) {
       dispatch(
         formDataUpdated({
-          formData: { ...formData, isActive: true, id: uuidv4().toString() },
+          formData: {
+            id: uuidv4().toString(),
+            name: formData.name,
+            age: formData.age,
+            email: formData.email,
+            image: imageData,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+            conditionsAccepted: formData.conditionsAccepted,
+            gender: formData.gender,
+            country: formData.country,
+            isActive: true,
+          },
         })
+        // formDataUpdated({
+        //   formData: { ...formData, isActive: true, id: uuidv4().toString() },
+        // })
       );
       navigate('/');
     }
@@ -175,6 +216,32 @@ const UncontrolledForm = () => {
             {/* <div className={styles.wrapper}>
               <p className={styles.error}>{countryErrorMsg}</p>
             </div> */}
+          </div>
+
+          {uriImageErrorMsg || !uriImage || uriImage.length === 0 ? (
+            <label className={styles['custum-file-upload']} htmlFor="file">
+              <div className={styles['icon']}>
+                <img src="/vite.svg" alt="upload" />
+              </div>
+              <div className={styles['text']}>
+                <span>Click to upload image</span>
+              </div>
+              {/* <input type="file" id="file" {...register('uriImage')} /> */}
+              <input
+                type="file"
+                id="file"
+                ref={uriImageRef}
+                onChange={handleChooseImage}
+              />
+            </label>
+          ) : (
+            <>
+              <strong>{uriImage[0].name}</strong>
+            </>
+          )}
+          <p className={styles.message}>{uploadMessage}</p>
+          <div className={styles.wrapper}>
+            <p className={styles.error}>{uriImageErrorMsg}</p>
           </div>
 
           <div className={styles.field}>

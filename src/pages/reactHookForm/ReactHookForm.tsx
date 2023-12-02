@@ -12,6 +12,7 @@ import { Gender } from '../../components/card/type';
 import { country } from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
+import { convertToBase64 } from '../../utils/convertToBase64';
 // import upload from './../../../public/upload.svg';
 
 // interface Form {
@@ -104,26 +105,26 @@ const ReactHookForm = () => {
 
   //const [image, setImage] = useState('');
 
-  const convertToBase64 = async (file) => {
-    const promise = new Promise(
-      (resolve: (data: string) => void, reject: () => void) => {
-        const reader = new FileReader();
-        reader.onerror = () => {
-          reject();
-        };
-        reader.onabort = () => {
-          reject();
-        };
-        reader.onloadend = () => {
-          if (reader.result) {
-            resolve(reader.result.toString());
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    );
-    return promise;
-  };
+  // const convertToBase64 = async (file) => {
+  //   const promise = new Promise(
+  //     (resolve: (data: string) => void, reject: () => void) => {
+  //       const reader = new FileReader();
+  //       reader.onerror = () => {
+  //         reject();
+  //       };
+  //       reader.onabort = () => {
+  //         reject();
+  //       };
+  //       reader.onloadend = () => {
+  //         if (reader.result) {
+  //           resolve(reader.result.toString());
+  //         }
+  //       };
+  //       reader.readAsDataURL(file);
+  //     }
+  //   );
+  //   return promise;
+  // };
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
