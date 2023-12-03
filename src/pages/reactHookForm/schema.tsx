@@ -41,24 +41,25 @@ export const schema = yup.object().shape({
     .typeError('Accept Terms and ConditionsAge is required')
     .oneOf([true], 'Accept Terms and Conditions'),
   uriImage: yup
-    .mixed()
+    .mixed<FileList>()
     .nullable()
-    .test('required', 'Please select a file', (value) => {
-      return value && value.length;
-    })
+    // .test('required', 'Please select a file', (value) => {
+    //   return value && value.length;
+    // })
+    .required('Please select a file')
     .test('fileSize', 'The file is too large (max 500kb)', (value) => {
-      if (!value.length) return true;
-      return value && value.length > 0 && value[0].size <= 500000;
+      if (!value) return true;
+      if (value) return value && value.length > 0 && value[0].size <= 500000;
     })
     .test(
       'type',
       'Only the following formats are accepted: .jpeg, .png',
       (value) => {
-        if (!value.length) return true;
-        return (
-          value &&
-          (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-        );
+        if (!value) return true;
+        if (value && value.length > 0)
+          return (
+            value[0].type === 'image/jpeg' || value[0].type === 'image/png'
+          );
       }
     ),
   country: yup

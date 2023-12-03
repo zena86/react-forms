@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { Country } from '../../pages/reactHookForm/types';
-// import { ITEMS_ON_PAGE } from '../../constants';
 
 export const formSlice = createSlice({
   name: 'formData',

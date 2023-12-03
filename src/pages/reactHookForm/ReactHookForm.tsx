@@ -10,149 +10,31 @@ import { schema } from './schema';
 import { Gender } from '../../components/card/type';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
-import { useState } from 'react';
-import { Country } from './types';
-// import upload from './../../../public/upload.svg';
-
-// interface Form {
-//   name: string;
-//   age: number;
-//   email: string;
-//   password: string;
-//   confirm_password: string;
-//   terms: boolean;
-//   gender: Gender;
-//   uriImage: FileList;
-// }
+import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/controlledAutocomplete';
 
 //const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
-
-// const schema = yup.object().shape({
-//   name: yup
-//     .string()
-//     .required('Name is required')
-//     .matches(/^[A-Z]/, 'first uppercased letter'),
-//   // age: yup
-//   //   .number()
-//   //   .typeError('Age must be a number')
-//   //   .required('Age is required')
-//   //   .positive('No negative values'),
-//   // email: yup
-//   //   .string()
-//   //   .matches(
-//   //     // eslint-disable-next-line no-useless-escape
-//   //     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-//   //     'Email is not valid'
-//   //   )
-//   //   .required('Email is required'),
-//   // password: yup
-//   //   .string()
-//   //   .required('Password is required')
-//   //   .matches(/[a-z]+/, 'One lowercase character')
-//   //   .matches(/[A-Z]+/, 'One uppercase character')
-//   //   .matches(/[@$!%*#?&]+/, 'One special character')
-//   //   .matches(/\d+/, 'One number'),
-//   // confirm_password: yup
-//   //   .string()
-//   //   .required('Password is required')
-//   //   .label('confirm password')
-//   //   .oneOf([yup.ref('password')], 'Passwords must match'),
-//   // terms: yup.boolean().oneOf([true], 'Must Accept Terms and Conditions'),
-//   // gender: yup
-//   //   .string()
-//   //   .required('Must provide a gender')
-//   //   .oneOf(Object.values(Gender)),
-//   // uriImage: yup
-//   //   .mixed()
-//   //   .nullable()
-//   //   .test('required', 'Please select a file', (value) => {
-//   //     console.log('value', value);
-//   //     console.log('value length', value.length);
-//   //     return value && value.length;
-//   //   })
-//   //   .test('fileSize', 'The file is too large', (value) => {
-//   //     if (!value.length) return true;
-//   //     return value && value.length > 0 && value[0].size <= 2000000;
-//   //   })
-//   //   .test(
-//   //     'type',
-//   //     'Only the following formats are accepted: .jpeg, .png',
-//   //     (value) => {
-//   //       if (!value.length) return true;
-//   //       return (
-//   //         value &&
-//   //         (value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-//   //       );
-//   //     }
-//   //   ),
-//   // country: yup
-//   //   .string()
-//   //   .required('Must provide a country')
-//   //   .oneOf(Object.values(Country)),
-// });
 
 type PersonFormProps = yup.InferType<typeof schema>;
 
 const ReactHookForm = () => {
-  // const [country, setCountry] = useState('');
-  // const [typedCountry, setTypedCountry] = useState('');
-  // const [selectedCountry, setSelectedCountry] = useState('');
+  const form = useForm<PersonFormProps>({
+    mode: 'all',
+    resolver: yupResolver(schema),
+  });
 
   const {
-    getValues,
-    setValue,
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
     watch,
-  } = useForm<PersonFormProps>({
-    mode: 'all',
-    resolver: yupResolver(schema),
-  });
+  } = form;
 
-  // const { append } = useFieldArray({
-  //   control: control,
-  //   name: 'test',
-  // });
-
-  console.log('errors!!!!!!!!', errors);
+  console.log('errors', errors);
+  console.log('isValid', isValid);
 
   // const countries = useAppSelector((state) => state.form.countries);
-  const [displayCountry, setDisplayCountry] = useState(false);
-  // const [options, setOptions] = useState(countries);
-
-  // useEffect(() => {
-  //   // setOptions(countries);
-  // }, [search]);
-
-  // const setCountryDex = (term: string) => {
-  //   setSearch(term);
-  //   setDisplayCountry(false);
-  // };
-
-  //const [image, setImage] = useState('');
-
-  // const convertToBase64 = async (file) => {
-  //   const promise = new Promise(
-  //     (resolve: (data: string) => void, reject: () => void) => {
-  //       const reader = new FileReader();
-  //       reader.onerror = () => {
-  //         reject();
-  //       };
-  //       reader.onabort = () => {
-  //         reject();
-  //       };
-  //       reader.onloadend = () => {
-  //         if (reader.result) {
-  //           resolve(reader.result.toString());
-  //         }
-  //       };
-  //       reader.readAsDataURL(file);
-  //     }
-  //   );
-  //   return promise;
-  // };
+  // const [displayCountry, setDisplayCountry] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -176,23 +58,17 @@ const ReactHookForm = () => {
           isActive: true,
         },
       })
-
-      // formDataUpdated({
-      //   formData: { ...data, isActive: true, id: uuidv4().toString() },
-      // })
     );
-    // alert(JSON.stringify(data));
     navigate('/');
     reset();
   };
-  // if (!watch) return;
 
   return (
     <>
       <Header />
       <div className="container">
-        {/* {image ? <img src={image} width={450} /> : null} */}
         <form
+          id="reactHookForm"
           onSubmit={handleSubmit(onFormSubmit)}
           className={styles['contact-form']}
         >
@@ -267,22 +143,9 @@ const ReactHookForm = () => {
             <p className={styles.error}>{errors.gender?.message}</p>
           </div>
 
-          {/* <div className={styles.field}>
-            <label htmlFor="country">Country</label>
-            <div className={styles['custom-select']}>
-              <select id="country" autoComplete={'on'} {...register('country')}>
-                {country.map((country) => {
-                  return (
-                    <option key={country} value={country}>
-                      {country}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div> */}
+          <ControlledAutocoplete form={form} />
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="country">Country</label>
             <input
               type="text"
@@ -331,7 +194,7 @@ const ReactHookForm = () => {
             <div className={styles.wrapper}>
               <p className={styles.error}>{errors.country?.message}</p>
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.field}>
             {errors.uriImage ||

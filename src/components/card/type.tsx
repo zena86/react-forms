@@ -1,3 +1,5 @@
+import { Country } from "../../pages/reactHookForm/types";
+
 export enum Gender {
   male = 'Male',
   female = 'Female',
@@ -13,7 +15,7 @@ export interface PersonForm {
   conditionsAccepted: boolean;
   gender: Gender;
   uriImage: FileList;
-  country: string;
+  country: Country;
 }
 
 export interface Person {
@@ -26,7 +28,7 @@ export interface Person {
   conditionsAccepted: boolean;
   gender: Gender;
   image: string;
-  country: string;
+  country: Country;
   isActive: boolean;
 }
 
