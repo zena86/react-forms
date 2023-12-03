@@ -5,7 +5,7 @@ import InputError from '../../inputError';
 
 const ControlledPassword = ({ form }: CountrySelectorProps) => {
   const {
-    getValues,
+    // getValues,
     // setValue,
     register,
     formState: { errors },
