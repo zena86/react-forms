@@ -13,6 +13,7 @@ import { convertToBase64 } from '../../utils/convertToBase64';
 import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/ControlledAutocoplete';
 import ControlledPassword from '../../components/reactHookForm/controlledPassword';
 import ControlledConditionsAccepted from '../../components/reactHookForm/controlledConditionsAccepted';
+import ControlledField from '../../components/reactHookForm/controlledField.tsx/ControlledField';
 
 //const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -74,29 +75,50 @@ const ReactHookForm = () => {
           onSubmit={handleSubmit(onFormSubmit)}
           className={styles['contact-form']}
         >
-          <div className={styles.field}>
+          <ControlledField
+            registerField={register('name')}
+            type="text"
+            id="name"
+            text="Name"
+            error={errors?.name?.message}
+          />
+          <ControlledField
+            registerField={register('age')}
+            type="number"
+            id="age"
+            text="Age"
+            error={errors.age?.message}
+          />
+          <ControlledField
+            registerField={register('email')}
+            type="email"
+            id="email"
+            text="Email"
+            error={errors?.email?.message}
+          />
+          {/* <div className={styles.field}>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" {...register('name')} />
             <div className={styles.wrapper}>
               <p className={styles.error}>{errors?.name?.message}</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="age">Age</label>
             <input type="number" id="age" {...register('age')} />
             <div className={styles.wrapper}>
               <p className={styles.error}>{errors.age?.message}</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="email">Email</label>
             <input type="email" id="email" {...register('email')} />
             <div className={styles.wrapper}>
               <p className={styles.error}>{errors.email?.message}</p>
             </div>
-          </div>
+          </div> */}
 
           {/* <div className={styles.field}>
             <label htmlFor="password">Password</label>
