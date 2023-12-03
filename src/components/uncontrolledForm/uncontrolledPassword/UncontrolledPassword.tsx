@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { UncontrolledPasswordProps } from '../../types';
-import InputError from '../inputError/InputError';
-import styles from './../../style.module.scss';
-import { calcStrength } from '../../utils/calcStrength';
+import { UncontrolledPasswordProps } from '../../../types';
+import InputError from '../../inputError/InputError';
+import styles from './../../../style.module.scss';
+import { calcStrength } from '../../../utils/calcStrength';
 
 const UncontrolledPassword = ({
   passwordRef,

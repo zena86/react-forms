@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Header from '../../components/header';
 import styles from './../../style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
-import { Gender, PersonForm } from '../../components/card/type';
+import { PersonForm } from '../../components/card/type';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import { ValidationError } from 'yup';
-import UncontrolledPassword from '../../components/uncontrolledForm/UncontrolledPassword';
+import UncontrolledPassword from '../../components/uncontrolledForm/uncontrolledPassword';
+import UncontrolledField from '../../components/uncontrolledForm/uncontrolledField';
+import UncontrolledAutocomplete from '../../components/uncontrolledForm/uncontrolledAutocomplete';
+import UncontrolledGender from '../../components/uncontrolledForm/uncontrolledGender';
+import UncontrolledUpload from '../../components/uncontrolledForm/uncontrolledUpload/';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);
@@ -33,25 +37,10 @@ const UncontrolledForm = () => {
   const [conditionsAcceptedErrorMsg, setConditionsAcceptedErrorMsg] =
     useState('');
 
-  const [imageName, setImageName] = useState('');
-  const [uploadMessage, setUploadMessage] = useState('');
-
-  const [displayCountry, setDisplayCountry] = useState(false);
-
-  const countries = useAppSelector((state) => state.form.countries);
-  const [options, setOptions] = useState(countries);
-  const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    setOptions(countries);
-  }, [countries]);
-  const setCountryDex = (term: string) => {
-    setSearch(term);
-    setDisplayCountry(false);
-  };
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [imageName, setImageName] = useState('');
 
   const validateNestedSchema = async (data: PersonForm) => {
     const validationResult = await schema
@@ -100,22 +89,14 @@ const UncontrolledForm = () => {
     setConditionsAcceptedErrorMsg(getErrorMsg(errors, 'conditionsAccepted'));
   };
 
-  const handleChooseImage = () => {
-    setUploadMessage('Image uploaded');
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setUploadMessage('');
     const formData = getFormData();
-    console.log('formData', formData);
     const filesList = formData.uriImage as FileList;
     const fileName = filesList && filesList.length ? filesList[0].name : '';
     setImageName(fileName);
-
     const errors = await validateNestedSchema(formData);
     changeErrorStates(errors);
-
     if (errors.length === 0 && fileName) {
       const imageData = await convertToBase64(filesList[0]);
       dispatch(
@@ -144,29 +125,29 @@ const UncontrolledForm = () => {
       <Header />
       <div className="container">
         <form onSubmit={handleSubmit} className={styles['contact-form']}>
-          <div className={styles.field}>
-            <label htmlFor="name">Name</label>
-            <input id="name" name="name" ref={nameRef} />
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{nameErrorMsg}</p>
-            </div>
-          </div>
+          <UncontrolledField
+            fieldRef={nameRef}
+            id="name"
+            type="text"
+            text="Name"
+            error={nameErrorMsg}
+          />
 
-          <div className={styles.field}>
-            <label htmlFor="age">Age</label>
-            <input type="number" id="age" ref={ageRef} />
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{ageErrorMsg}</p>
-            </div>
-          </div>
+          <UncontrolledField
+            fieldRef={ageRef}
+            id="age"
+            type="number"
+            text="Age"
+            error={ageErrorMsg}
+          />
 
-          <div className={styles.field}>
-            <label htmlFor="email">Email</label>
-            <input type="text" id="email" ref={emailRef} />
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{emailErrorMsg}</p>
-            </div>
-          </div>
+          <UncontrolledField
+            fieldRef={emailRef}
+            id="email"
+            type="email"
+            text="Email"
+            error={emailErrorMsg}
+          />
 
           <UncontrolledPassword
             passwordRef={passwordRef}
@@ -175,90 +156,18 @@ const UncontrolledForm = () => {
             confirmPasswordError={confirmPasswordErrorMsg}
           />
 
-          <div className={styles.field}>
-            <label htmlFor="country">Country</label>
-            <input
-              type="text"
-              id="country"
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck="false"
-              value={search}
-              onClick={() => setDisplayCountry(!displayCountry)}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setDisplayCountry(true);
-              }}
-              ref={countryRef}
-            />
-            {displayCountry && (
-              <div className={styles.autocontainer}>
-                {options
-                  .filter((item) => item.indexOf(search) > -1)
-                  .map((item) => {
-                    return (
-                      <div
-                        className={styles.options}
-                        key={item}
-                        onClick={() => setCountryDex(item)}
-                      >
-                        {item}
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{countryErrorMsg}</p>
-            </div>
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="gender">Gender</label>
-            <div className={styles['custom-select']}>
-              <select id="gender" ref={genderRef}>
-                {Object.values(Gender).map((gender) => {
-                  return (
-                    <option key={gender} value={gender}>
-                      {gender}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            {/* <div className={styles.wrapper}>
-              <p className={styles.error}>{genderErrorMsg}</p>
-            </div> */}
-          </div>
-
-          {uriImageErrorMsg || !imageName ? (
-            <>
-              <label className={styles['custum-file-upload']} htmlFor="file">
-                <div className={styles['icon']}>
-                  <img src="upload.svg" width={40} alt="upload" />
-                </div>
-                <div className={styles['text']}>
-                  <span>Click to upload image</span>
-                </div>
-              </label>
-            </>
-          ) : (
-            <>
-              <strong>{imageName}</strong>
-            </>
-          )}
-          <input
-            type="file"
-            id="file"
-            hidden
-            ref={uriImageRef}
-            onChange={handleChooseImage}
+          <UncontrolledAutocomplete
+            countryRef={countryRef}
+            countryError={countryErrorMsg}
           />
 
-          <p className={styles.message}>{uploadMessage}</p>
-          <div className={styles.wrapper}>
-            <p className={styles.error}>{uriImageErrorMsg}</p>
-          </div>
+          <UncontrolledGender genderRef={genderRef} />
+
+          <UncontrolledUpload
+            uriImageRef={uriImageRef}
+            uriImageErrorMsg={uriImageErrorMsg}
+            imageName={imageName}
+          />
 
           <div className={styles.field}>
             <div className={styles.row}>

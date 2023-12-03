@@ -43,12 +43,18 @@ export const schema = yup.object().shape({
   uriImage: yup
     .mixed<FileList>()
     .nullable()
-    // .test('required', 'Please select a file', (value) => {
-    //   return value && value.length;
-    // })
-    .required('Please select a file')
+    .typeError('Please select a file')
+    .test(
+      'required',
+      'Please select a file',
+      (value: FileList | null | undefined) => {
+        return value !== null && value !== undefined && value.length > 0;
+      }
+    )
     .test('fileSize', 'The file is too large (max 500kb)', (value) => {
-      if (!value) return true;
+      if (!value) {
+        return true;
+      }
       if (value) return value && value.length > 0 && value[0].size <= 500000;
     })
     .test(
