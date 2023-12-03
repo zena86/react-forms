@@ -21,6 +21,11 @@ export interface ControlledProps {
   form: UseFormReturn<PersonFormProps>;
 }
 
+export interface UncontrolledProps {
+  ref: HTMLInputElement;
+  error: string;
+}
+
 export interface ControlledFieldProps {
   // form: UseFormReturn<PersonFormProps>;
   type: string;

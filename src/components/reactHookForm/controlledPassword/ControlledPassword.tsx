@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ControlledProps } from '../../../types';
 import styles from './../../../pages/reactHookForm/style.module.scss';
 import InputError from '../../inputError';
+import { calcStrength } from '../../../utils/calcStrength';
 
 const ControlledPassword = ({ form }: ControlledProps) => {
   const {
@@ -11,26 +12,24 @@ const ControlledPassword = ({ form }: ControlledProps) => {
 
   const [strength, setStrength] = useState(0);
 
-  const calcStrength = (password: string) => {
-    console.log('checkStrength');
-    let val = 0;
-    if (password.match(/[a-z]/)) {
-      val += 25;
-    }
-    if (password.match(/[A-Z]/)) {
-      val += 25;
-    }
-    if (password.match(/[@$!%*#?&]+/)) {
-      val += 25;
-    }
-    if (password.match(/\d+/)) {
-      val += 25;
-    }
-    return val;
-  };
+  // const calcStrength = (password: string) => {
+  //   let val = 0;
+  //   if (password.match(/[a-z]/)) {
+  //     val += 25;
+  //   }
+  //   if (password.match(/[A-Z]/)) {
+  //     val += 25;
+  //   }
+  //   if (password.match(/[@$!%*#?&]+/)) {
+  //     val += 25;
+  //   }
+  //   if (password.match(/\d+/)) {
+  //     val += 25;
+  //   }
+  //   return val;
+  // };
 
   const handlePasswordChange = (password: string) => {
-    console.log('change password');
     setStrength(calcStrength(password));
   };
 

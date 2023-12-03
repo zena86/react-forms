@@ -11,8 +11,12 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import { ValidationError } from 'yup';
+import InputError from '../../components/inputError';
+import { calcStrength } from '../../utils/calcStrength';
 
 const UncontrolledForm = () => {
+  const [strength, setStrength] = useState(0);
+
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const ageRef = useRef(null);
@@ -104,6 +108,10 @@ const UncontrolledForm = () => {
     setUploadMessage('Image uploaded');
   };
 
+  const handlePasswordChange = (password: string) => {
+    setStrength(calcStrength(password));
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploadMessage('');
@@ -170,10 +178,18 @@ const UncontrolledForm = () => {
 
           <div className={styles.field}>
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" ref={passwordRef} />
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{passwordErrorMsg}</p>
-            </div>
+            <input
+              type="password"
+              id="password"
+              ref={passwordRef}
+              onChange={(e) => handlePasswordChange(e.target.value)}
+            />
+            <progress
+              id="progress"
+              max="100"
+              value={strength.toString()}
+            ></progress>
+            <InputError msg={passwordErrorMsg} />
           </div>
 
           <div className={styles.field}>
@@ -183,28 +199,9 @@ const UncontrolledForm = () => {
               id="confirmPassword"
               ref={confirmPasswordRef}
             />
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{confirmPasswordErrorMsg}</p>
-            </div>
+            <InputError msg={confirmPasswordErrorMsg} />
           </div>
 
-          <div className={styles.field}>
-            <label htmlFor="gender">Gender</label>
-            <div className={styles['custom-select']}>
-              <select id="gender" ref={genderRef}>
-                {Object.values(Gender).map((gender) => {
-                  return (
-                    <option key={gender} value={gender}>
-                      {gender}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            {/* <div className={styles.wrapper}>
-              <p className={styles.error}>{genderErrorMsg}</p>
-            </div> */}
-          </div>
           <div className={styles.field}>
             <label htmlFor="country">Country</label>
             <input
@@ -242,6 +239,26 @@ const UncontrolledForm = () => {
               <p className={styles.error}>{countryErrorMsg}</p>
             </div>
           </div>
+
+          <div className={styles.field}>
+            <label htmlFor="gender">Gender</label>
+            <div className={styles['custom-select']}>
+              <select id="gender" ref={genderRef}>
+                {Object.values(Gender).map((gender) => {
+                  return (
+                    <option key={gender} value={gender}>
+                      {gender}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {/* <div className={styles.wrapper}>
+              <p className={styles.error}>{genderErrorMsg}</p>
+            </div> */}
+          </div>
+
+
 
           {uriImageErrorMsg || !imageName ? (
             <>
