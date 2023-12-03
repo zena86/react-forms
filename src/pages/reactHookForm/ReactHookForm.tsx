@@ -10,7 +10,8 @@ import { schema } from './schema';
 import { Gender } from '../../components/card/type';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
-import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/controlledAutocomplete';
+import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/ControlledAutocoplete';
+import ControlledPassword from '../../components/reactHookForm/controlledPassword';
 
 //const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -107,7 +108,7 @@ const ReactHookForm = () => {
             </div>
           </div>
 
-          <div className={styles.field}>
+          {/* <div className={styles.field}>
             <label htmlFor="password">Password</label>
             <input type="password" id="password" {...register('password')} />
             <div className={styles.wrapper}>
@@ -125,7 +126,7 @@ const ReactHookForm = () => {
             <div className={styles.wrapper}>
               <p className={styles.error}>{errors.confirmPassword?.message}</p>
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.field}>
             <label htmlFor="gender">Gender</label>
@@ -142,6 +143,8 @@ const ReactHookForm = () => {
             </div>
             <p className={styles.error}>{errors.gender?.message}</p>
           </div>
+
+          <ControlledPassword form={form} />
 
           <ControlledAutocoplete form={form} />
 
