@@ -1,6 +1,6 @@
 import { UncontrolledProps } from '../../types';
 import InputError from '../inputError/InputError';
-import styles from './../../../pages/reactHookForm/style.module.scss';
+import styles from './../../../style.module.scss';
 
 const UncontrolledPassword = ({ref, error}: UncontrolledProps) => {
   return (

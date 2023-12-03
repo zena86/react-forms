@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ControlledProps } from '../../../types';
-import styles from './../../../pages/reactHookForm/style.module.scss';
+import styles from './../../../style.module.scss';
 import InputError from '../../inputError';
 import { calcStrength } from '../../../utils/calcStrength';
 

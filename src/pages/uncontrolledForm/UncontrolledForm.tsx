@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from '../../components/header';
-import styles from './../reactHookForm/style.module.scss';
+import styles from './../../style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
 import { Gender, PersonForm } from '../../components/card/type';
@@ -75,20 +75,22 @@ const UncontrolledForm = () => {
     return errors.find((item) => item.path === path)?.message || '';
   };
 
-  const getFormData = () => {
+  const getFormData = (): PersonForm => {
     return {
-      name: (nameRef?.current as HTMLInputElement | null)?.value,
-      email: (emailRef?.current as HTMLInputElement | null)?.value,
-      age: (ageRef?.current as HTMLInputElement | null)?.value,
-      password: (passwordRef?.current as HTMLInputElement | null)?.value,
-      confirmPassword: (confirmPasswordRef?.current as HTMLInputElement | null)
-        ?.value,
-      gender: (genderRef?.current as HTMLInputElement | null)?.value,
-      country: (countryRef?.current as HTMLInputElement | null)?.value,
-      uriImage: (uriImageRef?.current as HTMLInputElement | null)?.files,
-      conditionsAccepted: (
-        conditionsAcceptedRef?.current as HTMLInputElement | null
-      )?.checked,
+      name: (nameRef?.current as HTMLInputElement | null)?.value || '',
+      email: (emailRef?.current as HTMLInputElement | null)?.value || '',
+      age: Number((ageRef?.current as HTMLInputElement | null)?.value),
+      password: (passwordRef?.current as HTMLInputElement | null)?.value || '',
+      confirmPassword:
+        (confirmPasswordRef?.current as HTMLInputElement | null)?.value || '',
+      gender: (genderRef?.current as HTMLInputElement | null)?.value || '',
+      country: (countryRef?.current as HTMLInputElement | null)?.value || '',
+      uriImage:
+        (uriImageRef?.current as HTMLInputElement | null)?.files ||
+        new FileList(),
+      conditionsAccepted:
+        (conditionsAcceptedRef?.current as HTMLInputElement | null)?.checked ||
+        false,
     };
   };
 
@@ -121,7 +123,7 @@ const UncontrolledForm = () => {
     const fileName = filesList && filesList.length ? filesList[0].name : '';
     setImageName(fileName);
 
-    const errors = (await validateNestedSchema(formData)) as ValidationError[];
+    const errors = await validateNestedSchema(formData);
     changeErrorStates(errors);
 
     if (errors.length === 0 && fileName) {
@@ -257,8 +259,6 @@ const UncontrolledForm = () => {
               <p className={styles.error}>{genderErrorMsg}</p>
             </div> */}
           </div>
-
-
 
           {uriImageErrorMsg || !imageName ? (
             <>

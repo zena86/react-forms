@@ -6,16 +6,15 @@ export enum Gender {
 }
 
 export interface PersonForm {
-  id: string;
   name: string;
   age: number;
   email: string;
   password: string;
   confirmPassword: string;
   conditionsAccepted: boolean;
-  gender: Gender;
+  gender: string;
   uriImage: FileList;
-  country: Country;
+  country: string;
 }
 
 export interface Person {

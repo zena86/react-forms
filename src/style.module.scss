@@ -1,6 +1,4 @@
-@import './../../colors.scss';
-// $accentColor: #ff6384;
-// $accentColor: #146C94;
+@import './colors.scss';
 
 .field {
   margin-bottom: 5px;
@@ -74,7 +72,6 @@ input[type="checkbox"] {
 .contact-form input:focus {
   outline: none;
   box-shadow: 0 0 5px $accentColor;
-  // transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
 }
 

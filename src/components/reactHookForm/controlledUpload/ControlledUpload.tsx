@@ -1,5 +1,5 @@
 import { ControlledProps } from '../../../types';
-import styles from './../../../pages/reactHookForm/style.module.scss';
+import styles from './../../../style.module.scss';
 
 const ControlledUpload = ({ form }: ControlledProps) => {
   const {

@@ -2,7 +2,7 @@ import Header from '../../components/header';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import styles from './style.module.scss';
+import styles from './../../style.module.scss';
 import { useAppDispatch } from '../../redux/hooks';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';

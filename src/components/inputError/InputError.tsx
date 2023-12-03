@@ -1,4 +1,4 @@
-import styles from './../../pages/reactHookForm/style.module.scss';
+import styles from './../../style.module.scss';
 
 interface InputErrorProps {
   msg?: string;

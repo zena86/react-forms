@@ -1,6 +1,6 @@
 import { ControlledProps } from '../../../types';
 import { Gender } from '../../card/type';
-import styles from './../../../pages/reactHookForm/style.module.scss';
+import styles from './../../../style.module.scss';
 
 const ControlledGender = ({ form }: ControlledProps) => {
   const {

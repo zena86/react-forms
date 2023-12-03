@@ -1,6 +1,6 @@
 import { ControlledFieldProps } from '../../../types';
 import InputError from '../../inputError';
-import styles from './../../../pages/reactHookForm/style.module.scss';
+import styles from './../../../style.module.scss';
 
 const ControlledField = ({
   registerField,

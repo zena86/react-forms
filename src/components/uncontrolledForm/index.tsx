@@ -1,1 +1,1 @@
-export { default } from './uncontrolledPassword';
+export { default } from './UncontrolledPassword';

@@ -1,7 +1,6 @@
 import { ControlledProps } from '../../../types';
 import InputError from '../../inputError/InputError';
-import styles from './../../../pages/reactHookForm/style.module.scss';
-
+import styles from './../../../style.module.scss';
 const ControlledConditionsAccepted = ({ form }: ControlledProps) => {
   const {
     register,
