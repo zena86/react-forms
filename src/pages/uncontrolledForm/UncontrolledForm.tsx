@@ -3,13 +3,14 @@ import Header from '../../components/header';
 import styles from './../reactHookForm/style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
-import { Gender } from '../../components/card/type';
+import { Gender, PersonForm } from '../../components/card/type';
 // import { country } from '../reactHookForm/constants';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
+import { ValidationError } from 'yup';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);
@@ -22,16 +23,16 @@ const UncontrolledForm = () => {
   const uriImageRef = useRef(null);
   const conditionsAcceptedRef = useRef(null);
 
-  const [nameErrorMsg, setNameErrorMsg] = useState(null);
-  const [emailErrorMsg, setEmailErrorMsg] = useState(null);
-  const [ageErrorMsg, setAgeErrorMsg] = useState(null);
-  const [passwordErrorMsg, setPasswordErrorMsg] = useState(null);
-  const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(null);
+  const [nameErrorMsg, setNameErrorMsg] = useState('');
+  const [emailErrorMsg, setEmailErrorMsg] = useState('');
+  const [ageErrorMsg, setAgeErrorMsg] = useState('');
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
+  const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState('');
   // const [genderErrorMsg, setGenderErrorMsg] = useState(null);
-  const [countryErrorMsg, setCountryErrorMsg] = useState(null);
-  const [uriImageErrorMsg, setUriImageErrorMsg] = useState(null);
+  const [countryErrorMsg, setCountryErrorMsg] = useState('');
+  const [uriImageErrorMsg, setUriImageErrorMsg] = useState('');
   const [conditionsAcceptedErrorMsg, setConditionsAcceptedErrorMsg] =
-    useState();
+    useState('');
 
   //const [uriImage, setUriImage] = useState<FileList | null>(null);
   const [imageName, setImageName] = useState('');
@@ -53,20 +54,20 @@ const UncontrolledForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const validateNestedSchema = async (data) => {
+  const validateNestedSchema = async (data: PersonForm) => {
     const validationResult = await schema
       .validate(data, { abortEarly: false })
       .catch((err) => {
         return err;
       });
     if (!validationResult.inner) return [];
-    const result = validationResult.inner.map((err) => {
+    const result = validationResult.inner.map((err: ValidationError) => {
       return { path: err.path, message: err.message };
     });
     return result ? result : [];
   };
 
-  const getErrorMsg = (errors, path: string) => {
+  const getErrorMsg = (errors: ValidationError[], path: string): string => {
     return errors.find((item) => item.path === path)?.message || '';
   };
 
@@ -87,7 +88,7 @@ const UncontrolledForm = () => {
     };
   };
 
-  const changeErrorStates = (errors) => {
+  const changeErrorStates = (errors: ValidationError[]) => {
     setNameErrorMsg(getErrorMsg(errors, 'name'));
     setEmailErrorMsg(getErrorMsg(errors, 'email'));
     setAgeErrorMsg(getErrorMsg(errors, 'age'));
@@ -107,19 +108,16 @@ const UncontrolledForm = () => {
     event.preventDefault();
     setUploadMessage('');
     const formData = getFormData();
-    console.log('img ref', uriImageRef?.current);
+    console.log('formData', formData);
     const filesList = formData.uriImage as FileList;
     const fileName = filesList && filesList.length ? filesList[0].name : '';
-
     setImageName(fileName);
 
-    if (!fileName) return;
-    const imageData = await convertToBase64(filesList[0]);
-    //console.log('imageData', imageData);
-
-    const errors = await validateNestedSchema(formData);
+    const errors = (await validateNestedSchema(formData)) as ValidationError[];
     changeErrorStates(errors);
-    if (errors.length === 0) {
+
+    if (errors.length === 0 && fileName) {
+      const imageData = await convertToBase64(filesList[0]);
       dispatch(
         formDataUpdated({
           formData: {

@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/ControlledAutocoplete';
 import ControlledPassword from '../../components/reactHookForm/controlledPassword';
+import ControlledConditionsAccepted from '../../components/reactHookForm/controlledConditionsAccepted';
 
 //const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
@@ -75,20 +76,9 @@ const ReactHookForm = () => {
         >
           <div className={styles.field}>
             <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              {...register('name', {
-                required: 'Fill field',
-                minLength: { value: 5, message: 'More 5' },
-              })}
-            />
+            <input type="text" id="name" {...register('name')} />
             <div className={styles.wrapper}>
-              {errors && errors?.name && (
-                <p className={styles.error}>
-                  {errors?.name?.message || 'Error!'}
-                </p>
-              )}
+              <p className={styles.error}>{errors?.name?.message}</p>
             </div>
           </div>
 
@@ -145,7 +135,6 @@ const ReactHookForm = () => {
           </div>
 
           <ControlledPassword form={form} />
-
           <ControlledAutocoplete form={form} />
 
           {/* <div className={styles.field}>
@@ -210,7 +199,6 @@ const ReactHookForm = () => {
                 <div className={styles['text']}>
                   <span>Click to upload image</span>
                 </div>
-                {/* <input type="file" id="file" {...register('uriImage')} /> */}
                 <input type="file" id="file" {...register('uriImage')} />
               </label>
             ) : (
@@ -219,7 +207,9 @@ const ReactHookForm = () => {
             {errors.uriImage && <p>{errors.uriImage?.message}</p>}
           </div>
 
-          <div className={styles.row}>
+          <ControlledConditionsAccepted form={form} />
+
+          {/* <div className={styles.row}>
             <input
               type="checkbox"
               id="conditionsAccepted"
@@ -232,7 +222,7 @@ const ReactHookForm = () => {
           </div>
           <div className={styles.wrapper}>
             <p className={styles.error}>{errors.conditionsAccepted?.message}</p>
-          </div>
+          </div> */}
 
           <input type="submit" disabled={!isValid} value="Submit" />
         </form>
