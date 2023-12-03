@@ -1,1 +1,1 @@
-export { default } from './controlledConditionsAccepted';
+export { default } from './ControlledConditionsAccepted';

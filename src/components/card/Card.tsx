@@ -1,9 +1,8 @@
-// import { useAppSelector } from '../../redux/hooks';
 import { useEffect, useState } from 'react';
 import styles from './style.module.scss';
-import { PersonProps } from './type';
 import { useAppDispatch } from '../../redux/hooks';
 import { inactiveCards } from '../../redux/features/formSlice';
+import { PersonProps } from '../../types';
 
 const Card = ({ person }: PersonProps) => {
   const dispatch = useAppDispatch();
@@ -38,16 +37,6 @@ const Card = ({ person }: PersonProps) => {
       </figcaption>
     </figure>
   );
-
-  // <>
-  //   {!formData ? (
-  //     <div>
-  //       <h2>{formData.name}</h2>
-  //     </div>
-  //   ) : (
-  //     <h1>No data</h1>
-  //   )}
-  // </>;
 };
 
 export default Card;

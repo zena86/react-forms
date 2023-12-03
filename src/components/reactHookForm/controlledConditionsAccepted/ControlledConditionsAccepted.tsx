@@ -21,9 +21,6 @@ const ControlledConditionsAccepted = ({ form }: ControlledProps) => {
         </label>
       </div>
       <InputError msg={errors.conditionsAccepted?.message} />
-      {/* <div className={styles.wrapper}>
-        <p className={styles.error}>{errors.conditionsAccepted?.message}</p>
-      </div> */}
     </>
   );
 };

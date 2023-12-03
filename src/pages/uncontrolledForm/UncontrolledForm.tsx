@@ -3,7 +3,6 @@ import Header from '../../components/header';
 import styles from './../../style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
-import { PersonForm } from '../../components/card/type';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
@@ -16,6 +15,7 @@ import UncontrolledAutocomplete from '../../components/uncontrolledForm/uncontro
 import UncontrolledGender from '../../components/uncontrolledForm/uncontrolledGender';
 import UncontrolledUpload from '../../components/uncontrolledForm/uncontrolledUpload/';
 import UncontrolledConditionsAccepted from '../../components/uncontrolledForm/uncontrolledConditionsAccepted';
+import { PersonForm } from '../../types';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);

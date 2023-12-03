@@ -4,13 +4,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  // border: 1px solid red;
 }
 
 body {
   background-color: #212121;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
+}
+
+h1 {
+  color: white;
 }
 
 a {
@@ -52,7 +55,6 @@ progress {
   height: 10px;
 }
 
-/* value: */
 progress::-webkit-progress-value {
   background-color: $accentColor !important;
   border-radius: 10px;

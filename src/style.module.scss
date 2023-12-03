@@ -95,20 +95,15 @@ input[type="checkbox"] {
   transform: scale(1.1);
 }
 
-
-/* checkbox settings*/
-
 .ui-checkbox {
   --primary-color: $accentColor;
   --secondary-color: #fff;
   --primary-hover-color: $accentColor;
-  /* checkbox */
   --checkbox-diameter: 20px;
   --checkbox-border-radius: 5px;
   --checkbox-border-color: #d9d9d9;
   --checkbox-border-width: 1px;
   --checkbox-border-style: solid;
-  /* checkmark */
   --checkmark-size: 1.2;
 }
 
@@ -170,8 +165,6 @@ input[type="checkbox"] {
   transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),opacity 0.1s;
 }
 
-/* actions */
-
 .ui-checkbox:hover {
   border-color: $accentColor;
 }
@@ -200,7 +193,6 @@ input[type="checkbox"] {
   opacity: 1;
 }
 
-// Select
 .custom-select {
   position: relative;
   margin-bottom: 25px;
@@ -224,7 +216,6 @@ select {
   }
 }
 
-// Image upload
 .custom-select::before,
 .custom-select::after {
   --size: 0.3rem;
@@ -289,7 +280,6 @@ select {
   display: none;
 }
 
-// Countries
 .autocontainer {
   background-color: white;
   padding: 10px 0;

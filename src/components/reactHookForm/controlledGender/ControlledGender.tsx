@@ -1,5 +1,4 @@
-import { ControlledProps } from '../../../types';
-import { Gender } from '../../card/type';
+import { ControlledProps, Gender } from '../../../types';
 import styles from './../../../style.module.scss';
 
 const ControlledGender = ({ form }: ControlledProps) => {

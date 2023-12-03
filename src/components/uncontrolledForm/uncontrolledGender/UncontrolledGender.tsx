@@ -1,5 +1,4 @@
-import { UncontrolledGenderProps } from '../../../types';
-import { Gender } from '../../card/type';
+import { Gender, UncontrolledGenderProps } from '../../../types';
 import styles from './../../../style.module.scss';
 
 const UncontrolledGender = ({ genderRef }: UncontrolledGenderProps) => {
