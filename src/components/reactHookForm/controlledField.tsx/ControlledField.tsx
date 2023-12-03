@@ -1,4 +1,5 @@
 import { ControlledFieldProps } from '../../../types';
+import InputError from '../../inputError';
 import styles from './../../../pages/reactHookForm/style.module.scss';
 
 const ControlledField = ({
@@ -12,9 +13,7 @@ const ControlledField = ({
     <div className={styles.field}>
       <label htmlFor={id}>{text}</label>
       <input type={type} id={id} {...registerField} />
-      <div className={styles.wrapper}>
-        <p className={styles.error}>{error}</p>
-      </div>
+      <InputError msg={error} />
     </div>
   );
 };

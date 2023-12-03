@@ -306,3 +306,22 @@ select {
 .custum-file-upload input {
   display: none;
 }
+
+// Countries
+.autocontainer {
+  background-color: white;
+  padding: 10px 0;
+  max-height: 100px;
+  overflow-y: scroll;
+
+  & .options {
+    padding: 3px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $accentColor;
+    }
+  }
+}

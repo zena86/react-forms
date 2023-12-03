@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { CountrySelectorProps } from '../../../types';
+import { ControlledProps } from '../../../types';
 import styles from './../../../pages/reactHookForm/style.module.scss';
 import InputError from '../../inputError';
 
-const ControlledPassword = ({ form }: CountrySelectorProps) => {
+const ControlledPassword = ({ form }: ControlledProps) => {
   const {
-    // getValues,
-    // setValue,
     register,
     formState: { errors },
   } = form;

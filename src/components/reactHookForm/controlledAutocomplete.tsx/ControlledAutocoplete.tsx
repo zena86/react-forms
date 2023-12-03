@@ -1,28 +1,20 @@
-import { UseFormReturn } from 'react-hook-form';
 import styles from './../../../pages/reactHookForm/style.module.scss';
-import { schema } from '../../../pages/reactHookForm/schema';
 import { useState } from 'react';
-import { Country } from '../../../pages/reactHookForm/types';
-import * as yup from 'yup';
+import { ControlledProps } from '../../../types';
+import InputError from '../../inputError';
+import { RootState } from '../../../redux/store';
+import { useAppSelector } from '../../../redux/hooks';
 
-type PersonFormProps = yup.InferType<typeof schema>;
-interface CountrySelectorProps {
-  form: UseFormReturn<PersonFormProps>;
-}
-
-const ControlledAutocoplete = ({ form }: CountrySelectorProps) => {
+const ControlledAutocoplete = ({ form }: ControlledProps) => {
   const {
     getValues,
     setValue,
     register,
     formState: { errors },
   } = form;
-  // } = useForm<PersonFormProps>({
-  //   mode: 'all',
-  //   resolver: yupResolver(schema),
-  // });
 
   const [displayCountry, setDisplayCountry] = useState(false);
+  const countries = useAppSelector((state: RootState) => state.form.countries);
 
   return (
     <div className={styles.field}>
@@ -30,15 +22,14 @@ const ControlledAutocoplete = ({ form }: CountrySelectorProps) => {
       <input
         type="text"
         id="country"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck="false"
         {...register('country')}
         onClick={() => setDisplayCountry(!displayCountry)}
         onChange={(e) => {
           const userCountry = e.target.value.toString();
-          if (
-            Object.values(Country)
-              .map((c) => c.toString())
-              .includes(userCountry)
-          ) {
+          if (countries.map((c) => c.toString()).includes(userCountry)) {
             setDisplayCountry(false);
           } else {
             setDisplayCountry(true);
@@ -50,16 +41,16 @@ const ControlledAutocoplete = ({ form }: CountrySelectorProps) => {
         }}
       />
       {displayCountry && (
-        <div className="autocontainer">
-          {Object.values(Country)
+        <div className={styles.autocontainer}>
+          {countries
             .filter((item) => item.indexOf(getValues('country')) > -1)
             .map((option) => {
               return (
                 <div
+                  className={styles.options}
                   key={option.toString()}
                   onClick={async () => {
                     setDisplayCountry(false);
-                    console.log('CLICK', getValues());
                     setValue('country', option.toString(), {
                       shouldValidate: true,
                       shouldDirty: true,
@@ -72,9 +63,7 @@ const ControlledAutocoplete = ({ form }: CountrySelectorProps) => {
             })}
         </div>
       )}
-      <div className={styles.wrapper}>
-        <p className={styles.error}>{errors.country?.message}</p>
-      </div>
+      <InputError msg={errors.country?.message} />
     </div>
   );
 };

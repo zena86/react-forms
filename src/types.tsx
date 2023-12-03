@@ -17,7 +17,7 @@ type PersonFormProps = yup.InferType<typeof schema>;
 //   country = 'country',
 // }
 
-export interface CountrySelectorProps {
+export interface ControlledProps {
   form: UseFormReturn<PersonFormProps>;
 }
 
