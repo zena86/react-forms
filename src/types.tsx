@@ -38,6 +38,11 @@ export interface UncontrolledUploadProps {
   imageName: string;
 }
 
+export interface UncontrolledConditionsAcceptedProps {
+  conditionsAcceptedRef: React.MutableRefObject<null>;
+  error: string;
+}
+
 export interface ControlledFieldProps {
   type: string;
   id: string;

@@ -15,6 +15,7 @@ import UncontrolledField from '../../components/uncontrolledForm/uncontrolledFie
 import UncontrolledAutocomplete from '../../components/uncontrolledForm/uncontrolledAutocomplete';
 import UncontrolledGender from '../../components/uncontrolledForm/uncontrolledGender';
 import UncontrolledUpload from '../../components/uncontrolledForm/uncontrolledUpload/';
+import UncontrolledConditionsAccepted from '../../components/uncontrolledForm/uncontrolledConditionsAccepted';
 
 const UncontrolledForm = () => {
   const nameRef = useRef(null);
@@ -132,7 +133,6 @@ const UncontrolledForm = () => {
             text="Name"
             error={nameErrorMsg}
           />
-
           <UncontrolledField
             fieldRef={ageRef}
             id="age"
@@ -140,7 +140,6 @@ const UncontrolledForm = () => {
             text="Age"
             error={ageErrorMsg}
           />
-
           <UncontrolledField
             fieldRef={emailRef}
             id="email"
@@ -148,43 +147,26 @@ const UncontrolledForm = () => {
             text="Email"
             error={emailErrorMsg}
           />
-
           <UncontrolledPassword
             passwordRef={passwordRef}
             confirmPasswordRef={confirmPasswordRef}
             passwordError={passwordErrorMsg}
             confirmPasswordError={confirmPasswordErrorMsg}
           />
-
           <UncontrolledAutocomplete
             countryRef={countryRef}
             countryError={countryErrorMsg}
           />
-
           <UncontrolledGender genderRef={genderRef} />
-
           <UncontrolledUpload
             uriImageRef={uriImageRef}
             uriImageErrorMsg={uriImageErrorMsg}
             imageName={imageName}
           />
-
-          <div className={styles.field}>
-            <div className={styles.row}>
-              <input
-                type="checkbox"
-                id="conditionsAccepted"
-                ref={conditionsAcceptedRef}
-                className={styles['ui-checkbox']}
-              />
-              <label htmlFor="conditionsAccepted">
-                I agree to the terms and conditions
-              </label>
-            </div>
-            <div className={styles.wrapper}>
-              <p className={styles.error}>{conditionsAcceptedErrorMsg}</p>
-            </div>
-          </div>
+          <UncontrolledConditionsAccepted
+            conditionsAcceptedRef={conditionsAcceptedRef}
+            error={conditionsAcceptedErrorMsg}
+          />
           <input type="submit" value="Submit" />
         </form>
       </div>
