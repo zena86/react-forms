@@ -1,0 +1,96 @@
+@import './../../colors.scss';
+
+.card {
+  position: relative;
+  margin: 10px;
+  min-width: 230px;
+  max-width: 315px;
+  width: 100%;
+  color: #000000;
+  text-align: center;
+  line-height: 1.4em;
+  font-size: 14px;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+
+  &.active {
+
+    & figcaption {
+      background-color: $accentColor;
+      color: $dark;
+    }
+
+    & .profile-image {
+      border: 2px solid $lightBg;
+    }
+
+    & a {
+      color: $lightBg;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}
+
+.card * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.card .profile-image {
+  display: inline-block;
+  width: 80%;
+  z-index: 1;
+  position: relative;
+  padding: 10px;
+  border: 2px solid $accentColor;
+}
+
+.card .profile-image img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.card figcaption {
+  width: 100%;
+  background-color: $lightBg;
+  color: #555;
+  padding: 125px 25px 25px;
+  margin-top: -100px;
+  display: inline-block;
+}
+
+.card h3,
+.card h4,
+.card p {
+  margin: 0 0 5px;
+}
+
+.card h3 {
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
+.card h4 {
+  color: #8c8c8c;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.card p {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.card a {
+  color: $accentColor;
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: darken($color: $accentColor, $amount: 10)
+  }
+}

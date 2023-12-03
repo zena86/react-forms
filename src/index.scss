@@ -1,0 +1,76 @@
+@import './colors.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #212121;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 30px;
+
+  @media (max-width: 533px) {
+    padding: 10px;
+  }
+}
+
+progress::-webkit-progress-bar {
+  background-color: white; width: 100%;
+  border-radius: 10px;
+  height: 10px;
+}
+
+progress {
+  background-color: white;
+  border-radius: 10px;
+  height: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: $accentColor !important;
+  border-radius: 10px;
+  height: 10px;
+}
+
+progress::-moz-progress-bar {
+  background-color: $accentColor !important;
+  border-radius: 10px;
+  height: 10px;
+}
+
+progress {
+  color: $accentColor;
+  border-radius: 10px;
+  height: 10px;
+}
+
+
