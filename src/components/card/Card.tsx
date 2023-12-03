@@ -4,7 +4,6 @@ import styles from './style.module.scss';
 import { PersonProps } from './type';
 import { useAppDispatch } from '../../redux/hooks';
 import { inactiveCards } from '../../redux/features/formSlice';
-import { store } from '../../redux/store';
 
 const Card = ({ person }: PersonProps) => {
   const dispatch = useAppDispatch();

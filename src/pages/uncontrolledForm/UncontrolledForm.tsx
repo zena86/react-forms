@@ -4,19 +4,15 @@ import styles from './../../style.module.scss';
 import React from 'react';
 import { schema } from '../reactHookForm/schema';
 import { Gender, PersonForm } from '../../components/card/type';
-// import { country } from '../reactHookForm/constants';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import { ValidationError } from 'yup';
-import InputError from '../../components/inputError';
-import { calcStrength } from '../../utils/calcStrength';
+import UncontrolledPassword from '../../components/uncontrolledForm/UncontrolledPassword';
 
 const UncontrolledForm = () => {
-  const [strength, setStrength] = useState(0);
-
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const ageRef = useRef(null);
@@ -32,13 +28,11 @@ const UncontrolledForm = () => {
   const [ageErrorMsg, setAgeErrorMsg] = useState('');
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
   const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState('');
-  // const [genderErrorMsg, setGenderErrorMsg] = useState(null);
   const [countryErrorMsg, setCountryErrorMsg] = useState('');
   const [uriImageErrorMsg, setUriImageErrorMsg] = useState('');
   const [conditionsAcceptedErrorMsg, setConditionsAcceptedErrorMsg] =
     useState('');
 
-  //const [uriImage, setUriImage] = useState<FileList | null>(null);
   const [imageName, setImageName] = useState('');
   const [uploadMessage, setUploadMessage] = useState('');
 
@@ -47,6 +41,7 @@ const UncontrolledForm = () => {
   const countries = useAppSelector((state) => state.form.countries);
   const [options, setOptions] = useState(countries);
   const [search, setSearch] = useState('');
+
   useEffect(() => {
     setOptions(countries);
   }, [countries]);
@@ -100,7 +95,6 @@ const UncontrolledForm = () => {
     setAgeErrorMsg(getErrorMsg(errors, 'age'));
     setPasswordErrorMsg(getErrorMsg(errors, 'password'));
     setConfirmPasswordErrorMsg(getErrorMsg(errors, 'confirmPassword'));
-    // setGenderErrorMsg(getErrorMsg(errors, 'gender'));
     setCountryErrorMsg(getErrorMsg(errors, 'country'));
     setUriImageErrorMsg(getErrorMsg(errors, 'uriImage'));
     setConditionsAcceptedErrorMsg(getErrorMsg(errors, 'conditionsAccepted'));
@@ -108,10 +102,6 @@ const UncontrolledForm = () => {
 
   const handleChooseImage = () => {
     setUploadMessage('Image uploaded');
-  };
-
-  const handlePasswordChange = (password: string) => {
-    setStrength(calcStrength(password));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -178,31 +168,12 @@ const UncontrolledForm = () => {
             </div>
           </div>
 
-          <div className={styles.field}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              ref={passwordRef}
-              onChange={(e) => handlePasswordChange(e.target.value)}
-            />
-            <progress
-              id="progress"
-              max="100"
-              value={strength.toString()}
-            ></progress>
-            <InputError msg={passwordErrorMsg} />
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="confirmPassword">Confirm password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              ref={confirmPasswordRef}
-            />
-            <InputError msg={confirmPasswordErrorMsg} />
-          </div>
+          <UncontrolledPassword
+            passwordRef={passwordRef}
+            confirmPasswordRef={confirmPasswordRef}
+            passwordError={passwordErrorMsg}
+            confirmPasswordError={confirmPasswordErrorMsg}
+          />
 
           <div className={styles.field}>
             <label htmlFor="country">Country</label>

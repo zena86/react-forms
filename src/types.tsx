@@ -21,9 +21,11 @@ export interface ControlledProps {
   form: UseFormReturn<PersonFormProps>;
 }
 
-export interface UncontrolledProps {
-  ref: HTMLInputElement;
-  error: string;
+export interface UncontrolledPasswordProps {
+  passwordRef: React.MutableRefObject<null>;
+  confirmPasswordRef: React.MutableRefObject<null>;
+  passwordError: string;
+  confirmPasswordError: string;
 }
 
 export interface ControlledFieldProps {

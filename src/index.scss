@@ -4,17 +4,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  // border: 1px solid red;
 }
 
 body {
   background-color: #212121;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
-
-  // @media (max-width: 900px) {
-  //   width: 900px;
-  //   overflow-x: scroll;
-  // }
 }
 
 a {
@@ -28,6 +24,10 @@ li {
 form {
   max-width: 600px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
 }
 
 .container {

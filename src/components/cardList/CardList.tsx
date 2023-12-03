@@ -4,7 +4,6 @@ import styles from './style.module.scss';
 
 const CardList = () => {
   const formData = useAppSelector((state) => state.form.formData);
-
   const cards = formData.map((card) => (
     <li key={card.id}>
       <Card person={card} />
