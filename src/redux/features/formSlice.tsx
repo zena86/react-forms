@@ -13,7 +13,7 @@ export const formSlice = createSlice({
         email: 'example@qwerty.com',
         password: '',
         confirmPassword: '',
-        gender: 'Male',
+        gender: 'Female',
         country: 'Georgia',
         isActive: false,
         image: 'sample.jpg',
