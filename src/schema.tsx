@@ -1,6 +1,5 @@
 import * as yup from 'yup';
-import { Country } from './types';
-import { Gender } from '../../types';
+import { Country, Gender } from './types';
 
 export const schema = yup.object().shape({
   name: yup

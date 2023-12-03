@@ -6,7 +6,7 @@ import styles from './../../style.module.scss';
 import { useAppDispatch } from '../../redux/hooks';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
-import { schema } from './schema';
+import { schema } from '../../schema';
 import { v4 as uuidv4 } from 'uuid';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import ControlledAutocoplete from '../../components/reactHookForm/controlledAutocomplete.tsx/ControlledAutocoplete';

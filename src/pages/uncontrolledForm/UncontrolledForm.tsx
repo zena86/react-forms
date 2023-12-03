@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import Header from '../../components/header';
 import styles from './../../style.module.scss';
 import React from 'react';
-import { schema } from '../reactHookForm/schema';
+import { schema } from '../../schema';
 import { formDataUpdated } from '../../redux/features/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
@@ -64,7 +64,7 @@ const UncontrolledForm = () => {
     return {
       name: (nameRef?.current as HTMLInputElement | null)?.value || '',
       email: (emailRef?.current as HTMLInputElement | null)?.value || '',
-      age: Number((ageRef?.current as HTMLInputElement | null)?.value),
+      age: (ageRef?.current as HTMLInputElement | null)?.value || '',
       password: (passwordRef?.current as HTMLInputElement | null)?.value || '',
       confirmPassword:
         (confirmPasswordRef?.current as HTMLInputElement | null)?.value || '',

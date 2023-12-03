@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { Country } from '../../pages/reactHookForm/types';
+import { Country } from '../../types';
 
 export const formSlice = createSlice({
   name: 'formData',
