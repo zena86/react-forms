@@ -222,12 +222,16 @@ const UncontrolledForm = () => {
               ref={countryRef}
             />
             {displayCountry && (
-              <div className="autocontainer">
+              <div className={styles.autocontainer}>
                 {options
                   .filter((item) => item.indexOf(search) > -1)
                   .map((item) => {
                     return (
-                      <div key={item} onClick={() => setCountryDex(item)}>
+                      <div
+                        className={styles.options}
+                        key={item}
+                        onClick={() => setCountryDex(item)}
+                      >
                         {item}
                       </div>
                     );

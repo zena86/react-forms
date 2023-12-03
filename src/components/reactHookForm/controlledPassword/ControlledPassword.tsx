@@ -44,14 +44,13 @@ const ControlledPassword = ({ form }: ControlledProps) => {
           {...register('password')}
           onChange={(e) => handlePasswordChange(e.target.value)}
         />
+        <progress
+          id="progress"
+          max="100"
+          value={strength.toString()}
+        ></progress>
         <InputError msg={errors.password?.message} />
-        {/* <div className={styles.wrapper}>
-          <p className={styles.error}>{errors.password?.message}</p>
-        </div> */}
       </div>
-
-      <label htmlFor="progress">Strength:</label>
-      <progress id="progress" max="100" value={strength.toString()}></progress>
 
       <div className={styles.field}>
         <label htmlFor="confirm_password">Confirm password</label>
@@ -61,9 +60,6 @@ const ControlledPassword = ({ form }: ControlledProps) => {
           {...register('confirmPassword')}
         />
         <InputError msg={errors.confirmPassword?.message} />
-        {/* <div className={styles.wrapper}>
-          <p className={styles.error}>{errors.confirmPassword?.message}</p>
-        </div> */}
       </div>
     </>
   );
